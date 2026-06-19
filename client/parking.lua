@@ -24,7 +24,7 @@ local function manageVehicle(data)
             title = 'Update Values',
             disabled = data.vehicle.owner ~= player.charId,
             onSelect = function(args)
-                local groupTable = player.groups
+                local groupTable = player.getGroups()
                 local groups = {{value = 'none', label = 'None'}}
 
                 for group in pairs(groupTable) do

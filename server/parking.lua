@@ -99,7 +99,7 @@ local function storeVehicle(player, component, properties)
     local vehicle = Ox.GetVehicle(GetVehiclePedIsIn(player.ped, false))
     if not vehicle then
         return false, 'vehicle_not_found'
-    elseif player.charId ~= vehicle.owner or (vehicle.group and not player.hasGroup(vehicle.group)) then
+    elseif player.charId ~= vehicle.owner or (vehicle.group and not player.getGroup(vehicle.group)) then
         return false, 'not_vehicle_owner'
     end
 
@@ -110,7 +110,7 @@ local function storeVehicle(player, component, properties)
 
     clearVehicleOfPassengers({entity = vehicle.entity, seats = vehicle.data.seats})
 
-    vehicle.set('properties', properties)
+    vehicle.setProperties(properties)
     vehicle.setStored(('%s:%s'):format(component.property, component.componentId), true)
 
     return true, 'vehicle_stored'
@@ -139,7 +139,7 @@ local function retrieveVehicle(player, component, id)
         return false, 'vehicle_requirements_not_met'
     end
 
-    Ox.CreateVehicle(id, spawn.coords, spawn.heading)
+    Ox.SpawnVehicle(id, spawn.coords, spawn.heading)
 
     return true, 'vehicle_retrieved'
 end
@@ -157,7 +157,7 @@ local function moveVehicle(player, property, component, id)
     for i = 1, #vehicles do
         local veh = vehicles[i]
         if veh.id == id then
-            if veh.stored == 'displayed' then
+            if veh.getStored() == 'displayed' then
                 return false, 'vehicle_cannot_be_modified_while_displayed'
             end
 

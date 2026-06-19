@@ -7,7 +7,7 @@ local function getManagementData(property, player)
         doors = MySQL.query.await('SELECT id, name, data FROM ox_doorlock WHERE name LIKE ?', {('%s%%'):format(property)}),
         nearbyPlayers = {
             {
-                name = player.name,
+                name = player.get('name'),
                 charId = player.charId
             }
         }
@@ -30,7 +30,7 @@ local function getManagementData(property, player)
         local nearbyPlayer = players[i]
         if nearbyPlayer.source ~= player.source and #(nearbyPlayer.getCoords() - playerPos) < 10 then
             data.nearbyPlayers[#data.nearbyPlayers + 1] = {
-                name = nearbyPlayer.name,
+                name = nearbyPlayer.get('name'),
                 charId = nearbyPlayer.charId
             }
         end
